@@ -10,19 +10,22 @@
         base.init = function(){            
             base.options = $.extend({}, $.avgShadow.options, options);
             base.cleanOptions();
-            
-            // you dont support canvas, bye.
+
+            // make sure we're working with an image 
+            // first look for $.prop and if it doesnt exist fallback to attr
+            if ($.prop == null) {
+                if (base.$el.attr('tagName').toLowerCase() !== 'img') return;
+            } else {
+                if (base.$el.prop('tagNmae').toLowerCase() !== 'img') return;
+            }
+
+            // if no canvas support but fallback is specified
+            if (!base.supportsCanvas() && base.options.fallbackColor) base.fallback();
+
+            // no canvas support and dgaf
             if (!base.supportsCanvas()) return;
 
-            // whats up with this image is it cached?
-            // if not wait for the onload event
-            if (base.el.complete || base.readystate === 4) {
-                base.start();
-            } else {
-                base.el.onload = function(){
-                    base.start();
-                }
-            }
+            base.start();
         };
 
         // Make sure that the options passed into average shadow will be ok
@@ -48,61 +51,79 @@
         };
                 
         // Extract the rgb color values and map to box shadow
-        base.start = function() {            
+        base.start = function() {   
 
-            // set up empty color object
-            var color = { 
-                r: 0, 
-                g: 0, 
-                b: 0
-            };
+            // wait for img load
+            base.el.onload = function(){
+                console.log(base.el);
+                console.log(base.el.height);
 
-            // our sample size for the image
-            var sample = 5;
+                // set up empty color object
+                var color = { 
+                    r: 0, 
+                    g: 0, 
+                    b: 0
+                };
 
-            // create a canvas element
-            var canvas = document.createElement('canvas');
+                // our sample size for the image
+                var sample = 5;
 
-            // assign the canvas element a width and height based on the image
-            canvas.width = base.el.width;
-            canvas.height = base.el.height;
+                // create a canvas element
+                var canvas = document.createElement('canvas');
 
+                // assign the canvas element a width and height based on the image
+                canvas.width = base.el.width;
+                canvas.height = base.el.height;
 
-            // get the canvas' context and draw the image
-            var ctx = canvas.getContext && canvas.getContext('2d');
-            ctx.drawImage(base.el, 0, 0, base.el.width, base.el.height);
+                console.log(base.el);
+                // get the canvas' context and draw the image
+                var ctx = canvas.getContext && canvas.getContext('2d');
+                ctx.drawImage(base.el, 0, 0, base.el.width, base.el.height);
 
-            // extract the image data after the image has been drawn
-            var data = ctx.getImageData(0, 0, base.el.width, base.el.height);
+                console.log(base.el.width);
+                console.log(base.el.naturalWidth);
+                console.log(base.el.natural);
+                console.log(base.el.height);
 
-            // the length of the pixel array
-            var length = data.data.length;
+                // extract the image data after the image has been drawn
+                var data = ctx.getImageData(0, 0, base.el.width, base.el.height);
 
-            // boring iterator
-            var i = -4;
+                // the length of the pixel array
+                var length = data.data.length;
 
-            // boring counter
-            var count = 0;
-            
-            // iterate over the canvas based on our sample size
-            while ( (i += sample * 4) < length) {                    
-                ++count;
+                // boring iterator
+                var i = -4;
+
+                // boring counter
+                var count = 0;
                 
-                // extract the average color based on pixel array data
-                color.r += data.data[i];
-                color.g += data.data[i + 1];
-                color.b += data.data[i + 2];                    
+                // iterate over the canvas based on our sample size
+                while ( (i += sample * 4) < length) {                    
+                    ++count;
+                    
+                    // extract the average color based on pixel array data
+                    color.r += data.data[i];
+                    color.g += data.data[i + 1];
+                    color.b += data.data[i + 2];                    
+                }
+
+                // floor the values
+                color.r = ~~(color.r / count);
+                color.g = ~~(color.g / count);
+                color.b = ~~(color.b / count);
+
+                // assign the image box shadow based on the avergae color
+                base.el.style.boxShadow = base.options.horizontal + 'px ' + base.options.vertical + 'px ' + base.options.blur + 'px ' +  base.options.spread + 'px ' + 'rgb(' + color.r + ', ' + color.g + ', ' + color.b + ')' + base.options.inset;
+
             }
+        };
 
-            // floor the values
-            color.r = ~~(color.r / count);
-            color.g = ~~(color.g / count);
-            color.b = ~~(color.b / count);
+        // fallback to a specific color for boxshadow
 
-            // assign the image box shadow based on the avergae color
-            base.el.style.boxShadow = base.options.horizontal + 'px ' + base.options.vertical + 'px ' + base.options.blur + 'px ' +  base.options.spread + 'px ' + 'rgb(' + color.r + ', ' + color.g + ', ' + color.b + ')' + base.options.inset;
+        base.fallback = function() {
 
-
+            base.el.style.boxShadow = base.options.horizontal + 'px ' + base.options.vertical + 'px ' + base.options.blur + 'px ' +  base.options.spread + 'px ' + base.options.fallbackColor + base.options.inset;
+            
         };
 
         // feature detect for <canvas>
@@ -122,7 +143,8 @@
         vertical: 0,
         blur: '10px',
         spread: 5,
-        inset: '' // this needs to be an empty string, not false or null
+        inset: '', // this needs to be an empty string, not false or null
+        fallbackColor: null
     };
 
     $.fn.avgShadow = function(options){

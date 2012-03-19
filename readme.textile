@@ -7,9 +7,9 @@ p. Average Shadow is a jQuery plugin that generates a box shadow based on the av
 
 p. Please note that for this to work, images must be served from the same file system (localhost or on a server).
 
-h2. Useage 
+h2. Usage 
 
-p. Average Shadow can only be bound to images. Otherwise it will freak out and your computer will stop working forever sorry... Also, your browser must support the HTML5 @<canvas>@ element and CSS3.
+p. Average Shadow can only be bound to images. If the browser doesn't support HTML5 canvas, you may specify a fallback color with the option @fallbackColor@.
 
 p. Apply it to element on your webpage like so:
 
@@ -31,6 +31,7 @@ h3. Options
 |blur|sets the blur distance in pixels|10|
 |spread|sets the size of the shadow in pixels|5|
 |inset|uses an inset shadow instead of an outset shadow, a boolean|false|
+|fallbackColor|color to fallback to if @<canvas>@ is not supported (hex or rgb color value)|null|
 
 h3. Run Tests
 
