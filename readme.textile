@@ -5,6 +5,8 @@ p. Average Shadow is a jQuery plugin that generates a box shadow based on the av
 <br>
 !http://jonathanvingiano.com/Average-Shadow/assets/images/red.png! &nbsp; !http://jonathanvingiano.com/Average-Shadow/assets/images/purp.png!
 
+p. Please note that for this to work, images must be served from the same file system (localhost or on a server).
+
 h2. Useage 
 
 p. Average Shadow can only be bound to images. Otherwise it will freak out and your computer will stop working forever sorry... Also, your browser must support the HTML5 @<canvas>@ element and CSS3.
