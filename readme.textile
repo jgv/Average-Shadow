@@ -1,0 +1,39 @@
+h1. Average Shadow
+
+p. Average Shadow is a jQuery plugin that generates a box shadow based on the average color of an image that it is applied to. For example:
+
+<br>
+!http://jonathanvingiano.com/Average-Shadow/assets/images/red.png! &nbsp; !http://jonathanvingiano.com/Average-Shadow/assets/images/purp.png!
+
+h2. Useage 
+
+p. Average Shadow can only be bound to images. Otherwise it will freak out and your computer will stop working forever sorry... Also, your browser must support the HTML5 @<canvas>@ element and CSS3.
+
+p. Apply it to element on your webpage like so:
+
+<pre>
+$('img').avgShadow();
+</pre>
+
+p. or with options
+
+<pre>
+$('.my-cool-images').avgShadow({ horizontal: 10, vertical: 10, spread: 50 });
+</pre>
+
+h3. Options
+
+|_.option|_.description|_.default|
+|horizontal|sets the posisition of the horizontal shadow in pixels|0|
+|vertical|sets the position of the vertical shadow in pixels|0|
+|blur|sets the blur distance in pixels|10|
+|spread|sets the size of the shadow in pixels|5|
+|inset|uses an inset shadow instead of an outset shadow, a boolean|false|
+
+h3. Run Tests
+
+p. If you want to test Average Shadow you must do so in browser. This is the case because browsers consider getting the data of an image that is served over a local file system to be a security issue.
+
+<hr>
+
+!http://dumpfm.s3.amazonaws.com/images/20101203/1291366111341-dumpfm-GucciSoFlosy-globecolor.gif 100w 100h! 
