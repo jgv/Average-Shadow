@@ -115,7 +115,7 @@
 
         base.fallback = function() {
 
-            base.el.style.boxShadow = base.options.horizontal + 'px ' + base.options.vertical + 'px ' + base.options.blur + 'px ' +  base.options.spread + 'px ' + base.options.fallbackColor + base.options.inset;
+            base.el.style.boxShadow = base.options.horizontal + 'px ' + base.options.vertical + 'px ' + base.options.blur + 'px ' +  base.options.spread + 'px ' + base.options.fallbackColor + ' ' + base.options.inset;
             
         };
 
