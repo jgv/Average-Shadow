@@ -36,4 +36,4 @@ p. If you want to test Average Shadow you must do so in browser. This is the cas
 
 <hr>
 
-!http://dumpfm.s3.amazonaws.com/images/20101203/1291366111341-dumpfm-GucciSoFlosy-globecolor.gif 100w 100h! 
+<img src="http://dumpfm.s3.amazonaws.com/images/20101203/1291366111341-dumpfm-GucciSoFlosy-globecolor.gif" width="100px" height="100px" /> 
