@@ -1,3 +1,9 @@
+/*
+ * Average Shadow v1.1
+ * Jonathan Vingiano
+ *
+ */
+
 (function($){
 
     $.avgShadow = function(el, options){
@@ -14,16 +20,16 @@
             // make sure we're working with an image 
             // first look for $.prop and if it doesnt exist fallback to attr
             if ($.prop == null) {
-                if (base.$el.attr('tagName').toLowerCase() !== 'img') return;
+                if (base.$el.attr('tagName').toLowerCase() !== 'img') throw "Average Shadow: This plugin will only work with an <img> element.";
             } else {
-                if (base.$el.prop('tagNmae').toLowerCase() !== 'img') return;
+                if (base.$el.prop('tagNmae').toLowerCase() !== 'img') throw "Average Shadow: This plugin will only work with an <img> element.";
             }
 
             // if no canvas support but fallback is specified
             if (!base.supportsCanvas() && base.options.fallbackColor) base.fallback();
 
             // no canvas support and dgaf
-            if (!base.supportsCanvas()) return;
+            if (!base.supportsCanvas()) throw "Average Shadow: This browser doesn't support the canvas element.";
 
             // wait for image to load
             if (base.el.complete || base.el.readystate === 4) {
@@ -131,7 +137,7 @@
 
 
     // options object
-    $.avgShadow.options = { 
+    $.avgShadow.options = {
         horizontal: 0,
         vertical: 0,
         blur: '10px',
